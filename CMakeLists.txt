@@ -176,6 +176,19 @@ if (VIX_TIME_BUILD_EXAMPLES)
   endif()
 endif()
 
+# ======================================================
+# Benchmarks
+# ======================================================
+
+option(VIX_TIME_BUILD_BENCH "Build time module benchmarks" OFF)
+
+if (VIX_TIME_BUILD_BENCH)
+  if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/bench/CMakeLists.txt")
+    add_subdirectory(src/bench)
+  else()
+    message(WARNING "[time/bench] VIX_TIME_BUILD_BENCH=ON but src/bench/CMakeLists.txt not found, skipping.")
+  endif()
+endif()
 
 # ======================================================
 # Summary

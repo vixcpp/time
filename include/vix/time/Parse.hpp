@@ -9,34 +9,32 @@
  * Use of this source code is governed by a MIT license
  * that can be found in the LICENSE file.
  *
- * =====================================================
- * Vix.cpp - Time Module / Parse
- * =====================================================
- *
- * Lightweight parsing helpers for date and time strings.
- *
- * This header intentionally contains only small, reusable
- * utilities with no state and no dependencies on higher-
- * level abstractions.
- *
- * Supported helpers (v1):
- * - parse_ymd("YYYY-MM-DD")
- * - parse_hms("HH:MM:SS")
- *
- * Higher-level logic (Date, DateTime) builds on top.
+ * Vix.cpp
  */
 
 #ifndef VIX_TIME_PARSE_HPP
 #define VIX_TIME_PARSE_HPP
 
-#include <string_view>
 #include <cstdint>
+#include <string_view>
 
 namespace vix::time::parse
 {
   /**
-   * @brief Parse "YYYY-MM-DD".
+   * @brief Parse a calendar date in the form "YYYY-MM-DD".
    *
+   * @details
+   * This is a small, dependency-free helper used by higher-level types
+   * such as Date and DateTime.
+   *
+   * It parses digits and separators only. It does not validate calendar
+   * correctness (for example 2026-02-31). Calendar validation is done by
+   * higher-level types when needed.
+   *
+   * @param s Input string.
+   * @param year Output year.
+   * @param month Output month.
+   * @param day Output day.
    * @return true on success, false on failure.
    */
   inline bool parse_ymd(std::string_view s,
@@ -62,7 +60,7 @@ namespace vix::time::parse
       const int d = digit(s[i]);
       if (d < 0)
         return false;
-      y = y * 10 + d;
+      y = (y * 10) + d;
     }
 
     int m = 0;
@@ -71,7 +69,7 @@ namespace vix::time::parse
       const int d = digit(s[i]);
       if (d < 0)
         return false;
-      m = m * 10 + d;
+      m = (m * 10) + d;
     }
 
     int dday = 0;
@@ -80,7 +78,7 @@ namespace vix::time::parse
       const int d = digit(s[i]);
       if (d < 0)
         return false;
-      dday = dday * 10 + d;
+      dday = (dday * 10) + d;
     }
 
     year = y;
@@ -90,8 +88,17 @@ namespace vix::time::parse
   }
 
   /**
-   * @brief Parse "HH:MM:SS".
+   * @brief Parse a time in the form "HH:MM:SS".
    *
+   * @details
+   * This helper parses digits and separators only. It does not validate
+   * ranges (such as hour <= 23). Range validation is performed by the
+   * higher-level types that use this function.
+   *
+   * @param s Input string.
+   * @param hour Output hour.
+   * @param minute Output minute.
+   * @param second Output second.
    * @return true on success, false on failure.
    */
   inline bool parse_hms(std::string_view s,
@@ -111,19 +118,19 @@ namespace vix::time::parse
       return (c >= '0' && c <= '9') ? (c - '0') : -1;
     };
 
-    int h1 = digit(s[0]);
-    int h2 = digit(s[1]);
-    int m1 = digit(s[3]);
-    int m2 = digit(s[4]);
-    int s1 = digit(s[6]);
-    int s2 = digit(s[7]);
+    const int h1 = digit(s[0]);
+    const int h2 = digit(s[1]);
+    const int m1 = digit(s[3]);
+    const int m2 = digit(s[4]);
+    const int s1 = digit(s[6]);
+    const int s2 = digit(s[7]);
 
     if (h1 < 0 || h2 < 0 || m1 < 0 || m2 < 0 || s1 < 0 || s2 < 0)
       return false;
 
-    hour = h1 * 10 + h2;
-    minute = m1 * 10 + m2;
-    second = s1 * 10 + s2;
+    hour = (h1 * 10) + h2;
+    minute = (m1 * 10) + m2;
+    second = (s1 * 10) + s2;
     return true;
   }
 

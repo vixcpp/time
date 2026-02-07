@@ -20,6 +20,37 @@ fully type-safe, chrono-based, and explicit.
 - 📦 Header-only (v1)
 - 🚫 No hidden allocations, no magic, no dependencies
 
+## Benchmarks
+
+Benchmarks are built using an internal chrono-based harness
+(no external dependencies).
+
+Build:
+```bash
+cmake -S . -B build -DVIX_TIME_BUILD_BENCH=ON
+cmake --build build
+```
+Run:
+
+```bash
+./build/src/bench/vix_time_bench
+```
+
+#### Example results (Linux, x86_64):
+
+- Date.parse("YYYY-MM-DD"): ~170 ns (p50)
+- DateTime.parse ISO-8601: ~1.1 µs (p50)
+- Timestamp.now(): ~65 ns (p50)
+- Date.to_timestamp_utc(): ~240 ns (p50)
+
+### These numbers make vix::time suitable for:
+
+- logging
+- tracing
+- WAL
+- retry / timeout logic
+- scheduling
+
 ---
 
 ## Installation
