@@ -153,9 +153,13 @@ endif()
 option(VIX_TIME_BUILD_TESTS "Build time module tests" OFF)
 
 if (VIX_TIME_BUILD_TESTS)
-  include(CTest)
-  enable_testing()
-  add_subdirectory(tests)
+  if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+  else()
+    message(WARNING "[time/tests] VIX_TIME_BUILD_TESTS=ON but tests/CMakeLists.txt not found, skipping.")
+  endif()
 endif()
 
 # ======================================================
@@ -165,8 +169,13 @@ endif()
 option(VIX_TIME_BUILD_EXAMPLES "Build time module examples" OFF)
 
 if (VIX_TIME_BUILD_EXAMPLES)
-  add_subdirectory(examples)
+  if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
+    add_subdirectory(examples)
+  else()
+    message(WARNING "[time/examples] VIX_TIME_BUILD_EXAMPLES=ON but examples/CMakeLists.txt not found, skipping.")
+  endif()
 endif()
+
 
 # ======================================================
 # Summary
