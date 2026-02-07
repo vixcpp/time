@@ -55,7 +55,7 @@ namespace vix::time::parse
     };
 
     int y = 0;
-    for (int i = 0; i < 4; ++i)
+    for (std::size_t i = 0; i < 4; ++i)
     {
       const int d = digit(s[i]);
       if (d < 0)
@@ -64,7 +64,7 @@ namespace vix::time::parse
     }
 
     int m = 0;
-    for (int i = 5; i < 7; ++i)
+    for (std::size_t i = 5; i < 7; ++i)
     {
       const int d = digit(s[i]);
       if (d < 0)
@@ -73,7 +73,7 @@ namespace vix::time::parse
     }
 
     int dday = 0;
-    for (int i = 8; i < 10; ++i)
+    for (std::size_t i = 8; i < 10; ++i)
     {
       const int d = digit(s[i]);
       if (d < 0)
