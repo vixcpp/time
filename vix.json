@@ -1,0 +1,27 @@
+{
+  "name": "time",
+  "namespace": "vix",
+  "version": "0.1.0",
+  "type": "header-only",
+  "include": "include",
+  "license": "MIT",
+  "description": "High-precision time utilities for Vix.cpp: Date, DateTime, Duration, Timestamp, parsing and clocks.",
+  "keywords": [
+    "cpp",
+    "vix",
+    "time",
+    "date",
+    "datetime",
+    "duration",
+    "timestamp",
+    "clock",
+    "header-only"
+  ],
+  "repository": "https://github.com/vixcpp/time",
+  "authors": [
+    {
+      "name": "Gaspard Kirira",
+      "github": "Gaspardkirira"
+    }
+  ]
+}
