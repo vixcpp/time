@@ -56,7 +56,12 @@ if (DEFINED VIX_UMBRELLA_BUILD AND VIX_UMBRELLA_BUILD)
 endif()
 
 # Sources discovery
-file(GLOB_RECURSE TIME_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE TIME_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+)
+
+# Exclude benchmarks from the library sources
+list(FILTER TIME_SOURCES EXCLUDE REGEX ".*/src/bench/.*")
 
 # ======================================================
 # Target (STATIC if sources exist, else header-only)
