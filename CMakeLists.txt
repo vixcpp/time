@@ -83,11 +83,11 @@ if (TIME_SOURCES)
   )
 
   if (TARGET vix_warnings)
-    target_link_libraries(vix_time PUBLIC vix_warnings)
+    target_link_libraries(vix_time PRIVATE vix_warnings)
   endif()
 
   if (VIX_ENABLE_SANITIZERS AND TARGET vix_sanitizers)
-    target_link_libraries(vix_time PUBLIC vix_sanitizers)
+    target_link_libraries(vix_time PRIVATE vix_sanitizers)
   endif()
 
   set_target_properties(vix_time PROPERTIES
@@ -126,15 +126,6 @@ else()
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
-
-  # Optional umbrella helpers (if the parent project provides them)
-  if (TARGET vix_warnings)
-    target_link_libraries(vix_time INTERFACE vix_warnings)
-  endif()
-
-  if (VIX_ENABLE_SANITIZERS AND TARGET vix_sanitizers)
-    target_link_libraries(vix_time INTERFACE vix_sanitizers)
-  endif()
 
   install(TARGETS vix_time
     EXPORT VixTargets
