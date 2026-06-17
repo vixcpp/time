@@ -28,19 +28,40 @@ if (NOT TIME_TEST_SOURCES)
 endif()
 
 # One binary per test file (simple and explicit)
-foreach(test_src ${TIME_TEST_SOURCES})
-  get_filename_component(test_name ${test_src} NAME_WE)
+foreach(test_src IN LISTS TIME_TEST_SOURCES)
+  get_filename_component(test_name "${test_src}" NAME_WE)
 
-  add_executable(${test_name} ${test_src})
+  add_executable(${test_name}
+    ${test_src}
+  )
 
-  target_compile_features(${test_name} PRIVATE cxx_std_20)
+  target_compile_features(${test_name}
+    PRIVATE
+      cxx_std_20
+  )
 
   target_link_libraries(${test_name}
     PRIVATE
       vix::time
   )
 
-  add_test(NAME time.${test_name} COMMAND ${test_name})
+  if (VIX_ENABLE_SANITIZERS AND NOT MSVC)
+    target_compile_options(${test_name}
+      PRIVATE
+        -fno-omit-frame-pointer
+        -fsanitize=address,undefined
+    )
+
+    target_link_options(${test_name}
+      PRIVATE
+        -fsanitize=address,undefined
+    )
+  endif()
+
+  add_test(
+    NAME time.${test_name}
+    COMMAND ${test_name}
+  )
 endforeach()
 
 message(STATUS "[time/tests] Configured ${TIME_TEST_SOURCES}")
