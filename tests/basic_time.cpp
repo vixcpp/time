@@ -5,6 +5,7 @@
  */
 
 #include <cassert>
+#include <cstdint>
 #include <iostream>
 
 #include <vix/time/time.hpp>
@@ -71,11 +72,16 @@ int main()
   // --------------------------------------------------
 
   auto start = SteadyClock::now_chrono();
-  int sink = 0;
-  for (int i = 0; i < 100'000; ++i)
+  std::int64_t sink = 0;
+
+  for (std::int64_t i = 0; i < 100'000; ++i)
+  {
     sink += i;
+  }
+
   Duration elapsed = SteadyClock::since(start);
 
+  assert(sink > 0);
   assert(elapsed.count_ns() >= 0);
 
   std::cout << "[time] basic_time tests passed\n";
